@@ -45,5 +45,13 @@ form button[type="submit"] {
   cursor: pointer;
 }
 
-
-
+.map-button{
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;   
+  color: red;
+  font-size: 20px;
+  position:absolute;
+}
