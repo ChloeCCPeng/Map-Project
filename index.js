@@ -1,6 +1,7 @@
 const cityDisplayDiv = document.querySelector("#city-display");
 const mapImg = document.querySelector("#map-image");
 const cityNameDisplay = document.querySelector("#city-name");
+const localHighlightsDiv = document.querySelector("#local-highlights-div");
 
 const getPOIs = () => {
     fetch("https://www.triposo.com/api/20220104/location.json?part_of=United_States&tag_labels=city&count=10&order_by=-score&fields=name,id,snippet,parent_id,score,type,images,coordinates,intro&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw")
@@ -40,19 +41,7 @@ const renderCitiesNav = cities => {
         cityImg.src = city.images[0].sizes.thumbnail.url;
 
         cityDiv.addEventListener("click", () => {
-            console.log(city);
-            cityNameDisplay.textContent = city.name;
-            mapImg.src = city.images[0].sizes.medium.url;
-
-            document.querySelector("#local-highlights-div").replaceChildren();
-            const localHighlightsButton = document.createElement("button");
-            localHighlightsButton.textContent = "Local Highlights";
-
-            localHighlightsButton.addEventListener("click", () => {
-                getLocal(city.id);
-            })
-
-            cityDisplayDiv.append(localHighlightsButton);
+            changeCityDisplay(city);
         })
 
         cityDiv.append(cityName, cityImg);
@@ -60,8 +49,26 @@ const renderCitiesNav = cities => {
     })
 }
 
+const changeCityDisplay = city => {
+    console.log(city);
+
+    cityNameDisplay.textContent = city.name;
+    mapImg.src = city.images[0].sizes.medium.url;
+
+    const localHighlightsButton = document.createElement("button");
+    localHighlightsButton.textContent = "Local Highlights";
+
+    localHighlightsButton.addEventListener("click", () => {
+        getLocal(city.id);
+    })
+
+    localHighlightsDiv.replaceChildren();
+    localHighlightsDiv.append(localHighlightsButton);
+}
+
 const renderLocalHighlights = data => {
     console.log(data);
+
     data.results.forEach(highlight => {
         console.log(highlight);
         const localDiv = document.createElement("div");
@@ -72,7 +79,7 @@ const renderLocalHighlights = data => {
         localDesc.textContent = highlight.intro;
 
         localDiv.append(localName, localDesc);
-        cityDisplayDiv.append(localDiv);
+        localHighlightsDiv.append(localDiv);
     });
 }
 
