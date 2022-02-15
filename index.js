@@ -16,7 +16,7 @@ const getPlacesToEat = cityID => {
     .then(res => res.json())
     .then(data => {
         console.log(data);
-        return data;
+        renderRestaurant(data);
     });
 }
 
@@ -74,6 +74,13 @@ const changeCityDisplay = city => {
         getAttractions(city.id);
     })
 
+    const localrestaurantButton = document.createElement("button");
+    localrestaurantButton.textContent = "Local Restaurants";
+
+    localrestaurantButton.addEventListener('click', () => {
+        getPlacesToEat(city.id);
+    })
+
     cityDisplayDiv.replaceChildren();
     cityInfo.replaceChildren();
     cityDisplayDiv.append(newCityDisplayName, newCityDisplayImg, localHighlightsButton, attractionsButton);
@@ -99,7 +106,6 @@ const renderLocalHighlights = data => {
 }
 
 const renderAttractions = data => {
-    
     cityInfo.replaceChildren();
 
     data.results.forEach(attraction => {
@@ -150,8 +156,3 @@ const renderSearchResults = cities => {
 }
 
 getPOIs();
-//getPlacesToEat();
-//getAttractions();
-//getLocal();
-
-//account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw --> my account and token, should be included in every API request
