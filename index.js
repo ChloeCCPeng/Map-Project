@@ -1,33 +1,154 @@
+const cityDisplayDiv = document.querySelector("#city-display");
+const cityInfo = document.querySelector("#city-info");
+
 const getPOIs = () => {
-    fetch("https://www.triposo.com/api/20220104/location.json?part_of=United_States&tag_labels=city&count=10&order_by=-score&fields=name,id,snippet,parent_id,score,type,images,coordinates&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw")
+    fetch("https://www.triposo.com/api/20220104/location.json?part_of=United_States&tag_labels=city&count=10&order_by=-score&fields=name,id,snippet,parent_id,score,type,images,coordinates,intro&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw")
     .then(res => res.json())
-    .then(data => console.log(data));
+    .then(data => renderCitiesNav(data.results));
 }
 
-const getPlacesToEat = () => {
-    fetch("https://www.triposo.com/api/20220104/poi.json?location_id=New_York_City&tag_labels=eatingout&count=10&fields=id,name,score,intro,tag_labels,best_for,images&order_by=-score&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw")
+const getPlacesToEat = cityID => {
+    fetch(`https://www.triposo.com/api/20220104/poi.json?location_id=${cityID}&tag_labels=eatingout&count=10&fields=id,name,score,intro,tag_labels,best_for,images,snippet&order_by=-score&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw`)
     .then(res => res.json())
     .then(data => {
-        console.log(data)
-        data.results.forEach(restaurant => document.body.append(restaurant.name))
+        console.log(data);
+        renderRestaurant(data);
     });
 }
 
-const getAttractions = () => {
-    fetch("https://www.triposo.com/api/20220104/poi.json?location_id=New_York_City&tag_labels=!eatingout&count=10&fields=id,name,score,intro,tag_labels&order_by=-score&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw")
+const getAttractions = cityID => {
+    fetch(`https://www.triposo.com/api/20220104/poi.json?location_id=${cityID}&tag_labels=!eatingout&count=10&fields=id,name,score,intro,tag_labels,images&order_by=-score&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw`)
     .then(res => res.json())
-    .then(data => console.log(data));
+    .then(data => renderAttractions(data));
 }
 
-const getLocal = () => {
-    fetch("https://www.triposo.com/api/20220104/poi.json?account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw&location_id=New_York_City&tag_labels=character-Popular_with_locals&order_by=-character-Popular_with_locals_score&fields=id,name,snippet,images,coordinates")
+const getLocal = cityID => {
+    fetch(`https://www.triposo.com/api/20220104/poi.json?account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw&location_id=${cityID}&tag_labels=character-Popular_with_locals&order_by=-character-Popular_with_locals_score&fields=id,name,snippet,images,coordinates,intro`)
     .then(res => res.json())
-    .then(data => console.log(data));
+    .then(data => renderLocalHighlights(data));
 }
 
-//getPOIs();
-//getPlacesToEat();
-//getAttractions();
-//getLocal();
+const renderCitiesNav = cities => {
+    console.log(cities);
+    cities.forEach(city => {
+        const cityDiv = document.createElement("div");
+        const cityName = document.createElement("h1");
+        const cityImg = document.createElement("img");
+        
+        cityName.textContent = city.name;
+        cityImg.src = city.images[0].sizes.thumbnail.url;
+
+        cityDiv.addEventListener("click", () => {
+            changeCityDisplay(city);
+        })
+
+        cityDiv.append(cityName, cityImg);
+        document.body.append(cityDiv);
+    })
+}
+
+const changeCityDisplay = city => {
+    console.log(city);
+
+    const newCityDisplayName = document.createElement("h1");
+    const newCityDisplayImg = document.createElement("img");
+
+    newCityDisplayName.textContent = city.name;
+    newCityDisplayImg.src = city.images[0].sizes.medium.url;
+
+    const localHighlightsButton = document.createElement("button");
+    localHighlightsButton.textContent = "Local Highlights";
+
+    
+    localHighlightsButton.addEventListener("click", () => {
+        getLocal(city.id);
+    })
+    
+    const attractionsButton = document.createElement("button");
+    attractionsButton.textContent = "Attractions";
+    
+    attractionsButton.addEventListener("click", () => {
+        getAttractions(city.id);
+    })
+
+    const localrestaurantButton = document.createElement("button");
+    localrestaurantButton.textContent = "Local Restaurants";
+
+    localrestaurantButton.addEventListener('click', () => {
+        getPlacesToEat(city.id);
+    })
+
+    // cityDisplayDiv.replaceChildren();
+    cityInfo.replaceChildren();
+    cityDisplayDiv.append(newCityDisplayName, newCityDisplayImg, localHighlightsButton, attractionsButton, localrestaurantButton);
+}
+
+const renderLocalHighlights = data => {
+    console.log(data);
+
+    cityInfo.replaceChildren();
+
+    data.results.forEach(highlight => {
+        console.log(highlight);
+        const localDiv = document.createElement("div");
+        const localName = document.createElement("h3");
+        const localDesc = document.createElement("p");
+
+        localName.textContent = highlight.name;
+        localDesc.textContent = highlight.intro;
+
+        localDiv.append(localName, localDesc);
+        cityInfo.append(localDiv);
+    });
+}
+
+const renderAttractions = data => {
+    
+    // cityInfo.replaceChildren();
+
+    data.results.forEach(attraction => {
+        
+        const attractionDiv = document.createElement("div");
+        const attractionName = document.createElement("h3");
+        const attractionDesc = document.createElement("p");
+
+        attractionName.textContent = attraction.name;
+        attractionDesc.textContent = attraction.intro;
+
+        attractionDiv.append(attractionName, attractionDesc);
+        cityInfo.append(attractionDiv);
+    });
+}
+
+const renderRestaurant = data => {
+    cityInfo.replaceChildren();
+    data.results.forEach(restaurant => {
+        const restaurantDiv = document.createElement('div');
+        const restaurantName = document.createElement('h3');
+        const restaurantSnippet = document.createElement('h3');
+        const restaurantScore = document.createElement ('p');
+        // const restaurantImage = document.createElement ('div');
+        const restaurantIntro = document.createElement('p');
+        const score = restaurant.score.toFixed(0);
+
+        restaurantName.textContent = restaurant.name;
+        restaurantSnippet.textContent = restaurant.snippet;
+        restaurantScore.textContent = ("Score: " + score);
+        // restaurantImage.setAttribute('src', restaurant.images[0].source_url);
+        // restaurantImage.src = restaurant.images[0].sizes.thumbnail.url;
+        restaurantIntro.textContent = restaurant.intro;
+
+        restaurantDiv.append (restaurantName, restaurantSnippet, restaurantScore, restaurantIntro);
+        cityInfo.appendChild(restaurantDiv)
+        console.log(data.results) 
+    }
+        )
+}
+
+getPOIs();
+getPlacesToEat();
+// getAttractions();
+// getLocal();
 
 //account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw --> my account and token, should be included in every API request
+
