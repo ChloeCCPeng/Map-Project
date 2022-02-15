@@ -16,10 +16,10 @@ const getPlacesToEat = cityID => {
     });
 }
 
-const getAttractions = () => {
-    fetch("https://www.triposo.com/api/20220104/poi.json?location_id=New_York_City&tag_labels=!eatingout&count=10&fields=id,name,score,intro,tag_labels,images&order_by=-score&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw")
+const getAttractions = cityID => {
+    fetch(`https://www.triposo.com/api/20220104/poi.json?location_id=${cityID}&tag_labels=!eatingout&count=10&fields=id,name,score,intro,tag_labels,images&order_by=-score&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw`)
     .then(res => res.json())
-    .then(data => console.log(data));
+    .then(data => renderAttractions(data));
 }
 
 const getLocal = cityID => {
@@ -63,9 +63,16 @@ const changeCityDisplay = city => {
         getLocal(city.id);
     })
 
+    const attractionsButton = document.createElement("button");
+    attractionsButton.textContent = "Attractions";
+
+    attractionsButton.addEventListener("click", () => {
+        getAttractions(city.id);
+    })
+
     cityDisplayDiv.replaceChildren();
     cityInfo.replaceChildren();
-    cityDisplayDiv.append(newCityDisplayName, newCityDisplayImg, localHighlightsButton);
+    cityDisplayDiv.append(newCityDisplayName, newCityDisplayImg, localHighlightsButton, attractionsButton);
 }
 
 const renderLocalHighlights = data => {
@@ -87,9 +94,27 @@ const renderLocalHighlights = data => {
     });
 }
 
+const renderAttractions = data => {
+    
+    cityInfo.replaceChildren();
+
+    data.results.forEach(attraction => {
+        
+        const attractionDiv = document.createElement("div");
+        const attractionName = document.createElement("h3");
+        const attractionDesc = document.createElement("p");
+
+        attractionName.textContent = attraction.name;
+        attractionDesc.textContent = attraction.intro;
+
+        attractionDiv.append(attractionName, attractionDesc);
+        cityInfo.append(attractionDiv);
+    });
+}
+
 getPOIs();
 //getPlacesToEat();
-//getAttractions();
+getAttractions();
 //getLocal();
 
 //account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw --> my account and token, should be included in every API request
