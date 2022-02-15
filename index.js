@@ -1,5 +1,6 @@
 const cityDisplayDiv = document.querySelector("#city-display");
 const cityInfo = document.querySelector("#city-info");
+const reviewsList = document.querySelector("#reviews-list")
 
 const getPOIs = () => {
     fetch("https://www.triposo.com/api/20220104/location.json?part_of=United_States&tag_labels=city&count=10&order_by=-score&fields=name,id,snippet,parent_id,score,type,images,coordinates,intro&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw")
@@ -40,6 +41,7 @@ const renderCitiesNav = cities => {
 
         cityDiv.addEventListener("click", () => {
             changeCityDisplay(city);
+            addReview();
         })
 
         cityDiv.append(cityName, cityImg);
@@ -55,6 +57,7 @@ const changeCityDisplay = city => {
 
     newCityDisplayName.textContent = city.name;
     newCityDisplayImg.src = city.images[0].sizes.medium.url;
+
 
     const localHighlightsButton = document.createElement("button");
     localHighlightsButton.textContent = "Local Highlights";
@@ -110,6 +113,32 @@ const renderAttractions = data => {
         attractionDiv.append(attractionName, attractionDesc);
         cityInfo.append(attractionDiv);
     });
+}
+
+function addReview(){
+    const reviewForm = document.querySelector('#review-form')
+    reviewsList.replaceChildren()
+    const reviewsTitle = document.createElement("label")
+    const textArea = document.createElement("textarea")
+    textArea.setAttribute("id", "review")
+    const submitButton = document.createElement("button")
+
+    submitButton.textContent = "Add Review"
+    reviewsTitle.textContent = "Your Review"
+
+    reviewsList.append(reviewsTitle,textArea,submitButton)
+    
+    reviewForm.addEventListener("submit", (e) =>{
+    e.preventDefault();
+    
+    const newReview = document.querySelector('#review').value
+    const newCityReview = document.createElement('ul')
+    newCityReview.textContent = newReview
+
+    reviewsList.append(newCityReview)
+    reviewForm.reset()
+})
+
 }
 
 getPOIs();
