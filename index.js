@@ -1,5 +1,9 @@
 const cityDisplayDiv = document.querySelector("#city-display");
 const cityInfo = document.querySelector("#city-info");
+const citySearch = document.querySelector("#city-search");
+const citySearchInput = document.querySelector("#city-search-input");
+const searchDiv = document.querySelector(".search-container");
+const searchResults = document.querySelector("#search-results");
 
 const getPOIs = () => {
     fetch("https://www.triposo.com/api/20220104/location.json?part_of=United_States&tag_labels=city&count=10&order_by=-score&fields=name,id,snippet,parent_id,score,type,images,coordinates,intro&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw")
@@ -112,9 +116,42 @@ const renderAttractions = data => {
     });
 }
 
+citySearch.addEventListener("submit", event => {
+    event.preventDefault();
+    handleSearch();
+})
+
+const handleSearch = () => {
+    console.log(citySearchInput.value);
+    fetch(`https://www.triposo.com/api/20220104/location.json?countrycode=US&tag_labels=city&annotate=trigram:${citySearchInput.value}&trigram=>=0.3&count=5&fields=id,name,score,country_id,parent_id,snippet,images,coordinates,intro&order_by=-score&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw`)
+    .then(res => res.json())
+    .then(data => renderSearchResults(data.results));
+}
+
+const renderSearchResults = cities => {
+    searchResults.replaceChildren();
+
+    cities.forEach(city => {
+        console.log(city);
+        const cityDiv = document.createElement("div");
+        const cityName = document.createElement("h3");
+        const cityImg = document.createElement("img");
+
+        cityName.textContent = `${city.name}, ${city.parent_id}`;
+        cityImg.src = city.images[0].sizes.thumbnail.url;
+
+        cityDiv.addEventListener("click", () => {
+            changeCityDisplay(city);
+        });
+
+        cityDiv.append(cityName, cityImg);
+        searchResults.append(cityDiv);
+    })
+}
+
 getPOIs();
 //getPlacesToEat();
-getAttractions();
+//getAttractions();
 //getLocal();
 
 //account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw --> my account and token, should be included in every API request
