@@ -1,7 +1,5 @@
 const cityDisplayDiv = document.querySelector("#city-display");
-const mapImg = document.querySelector("#map-image");
-const cityNameDisplay = document.querySelector("#city-name");
-const localHighlightsDiv = document.querySelector("#local-highlights-div");
+const cityInfo = document.querySelector("#city-info");
 
 const getPOIs = () => {
     fetch("https://www.triposo.com/api/20220104/location.json?part_of=United_States&tag_labels=city&count=10&order_by=-score&fields=name,id,snippet,parent_id,score,type,images,coordinates,intro&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw")
@@ -19,7 +17,7 @@ const getPlacesToEat = cityID => {
 }
 
 const getAttractions = () => {
-    fetch("https://www.triposo.com/api/20220104/poi.json?location_id=New_York_City&tag_labels=!eatingout&count=10&fields=id,name,score,intro,tag_labels&order_by=-score&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw")
+    fetch("https://www.triposo.com/api/20220104/poi.json?location_id=New_York_City&tag_labels=!eatingout&count=10&fields=id,name,score,intro,tag_labels,images&order_by=-score&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw")
     .then(res => res.json())
     .then(data => console.log(data));
 }
@@ -52,8 +50,11 @@ const renderCitiesNav = cities => {
 const changeCityDisplay = city => {
     console.log(city);
 
-    cityNameDisplay.textContent = city.name;
-    mapImg.src = city.images[0].sizes.medium.url;
+    const newCityDisplayName = document.createElement("h1");
+    const newCityDisplayImg = document.createElement("img");
+
+    newCityDisplayName.textContent = city.name;
+    newCityDisplayImg.src = city.images[0].sizes.medium.url;
 
     const localHighlightsButton = document.createElement("button");
     localHighlightsButton.textContent = "Local Highlights";
@@ -62,24 +63,27 @@ const changeCityDisplay = city => {
         getLocal(city.id);
     })
 
-    localHighlightsDiv.replaceChildren();
-    localHighlightsDiv.append(localHighlightsButton);
+    cityDisplayDiv.replaceChildren();
+    cityInfo.replaceChildren();
+    cityDisplayDiv.append(newCityDisplayName, newCityDisplayImg, localHighlightsButton);
 }
 
 const renderLocalHighlights = data => {
     console.log(data);
 
+    cityInfo.replaceChildren();
+
     data.results.forEach(highlight => {
         console.log(highlight);
         const localDiv = document.createElement("div");
-        const localName = document.createElement("p");
+        const localName = document.createElement("h3");
         const localDesc = document.createElement("p");
 
         localName.textContent = highlight.name;
         localDesc.textContent = highlight.intro;
 
         localDiv.append(localName, localDesc);
-        localHighlightsDiv.append(localDiv);
+        cityInfo.append(localDiv);
     });
 }
 
