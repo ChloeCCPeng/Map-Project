@@ -2,12 +2,13 @@ const cityDisplayDiv = document.querySelector("#city-display");
 const cityInfo = document.querySelector("#city-info");
 
 const reviewsList = document.querySelector("#reviews-list")
+const reviewForm = document.querySelector('#review-form');
 
 const citySearch = document.querySelector("#city-search");
 const citySearchInput = document.querySelector("#city-search-input");
 const searchDiv = document.querySelector(".search-container");
 const searchResults = document.querySelector("#search-results");
-
+let cityID;
 
 const getPOIs = () => {
     fetch("https://www.triposo.com/api/20220104/location.json?part_of=United_States&tag_labels=city&count=10&order_by=-score&fields=name,id,snippet,parent_id,score,type,images,coordinates,intro&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw")
@@ -48,7 +49,6 @@ const renderCitiesNav = cities => {
 
         cityDiv.addEventListener("click", () => {
             changeCityDisplay(city);
-            addReview();
         })
 
         cityDiv.append(cityName, cityImg);
@@ -86,10 +86,13 @@ const changeCityDisplay = city => {
     localrestaurantButton.addEventListener('click', () => {
         getPlacesToEat(city.id);
     })
-
+    
     cityDisplayDiv.replaceChildren();
     cityInfo.replaceChildren();
     cityDisplayDiv.append(newCityDisplayName, newCityDisplayImg, localrestaurantButton, attractionsButton, localHighlightsButton);
+    
+    cityID = city.id;
+    addReview();
 }
 
 const renderLocalHighlights = data => {
@@ -130,7 +133,6 @@ const renderAttractions = data => {
 
 
 function addReview(){
-    const reviewForm = document.querySelector('#review-form')
     reviewsList.replaceChildren()
     const reviewsTitle = document.createElement("label")
     const textArea = document.createElement("textarea")
@@ -141,8 +143,9 @@ function addReview(){
     reviewsTitle.textContent = "Your Review"
 
     reviewsList.append(reviewsTitle,textArea,submitButton)
-    
-    reviewForm.addEventListener("submit", (e) =>{
+}
+
+reviewForm.addEventListener("submit", (e) =>{
     e.preventDefault();
     
     const newReview = document.querySelector('#review').value
@@ -150,15 +153,28 @@ function addReview(){
     newCityReview.textContent = newReview
 
     reviewsList.append(newCityReview)
+
+    const reviewObj = {
+        city: cityID,
+        review: newReview
+    }
+    handleReviewDB(reviewObj)
+
     reviewForm.reset()
 })
 
+const handleReviewDB = review => {
+    console.log(JSON.stringify(review))
+    fetch("http://localhost:3000/reviews/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(review)
+    })
+    .then(res => res.json())
+    .then(data => console.log(data));
 }
-
-getPOIs();
-//getPlacesToEat();
-getAttractions();
-//getLocal();
 
 const renderRestaurant = data => {
     cityInfo.replaceChildren();
