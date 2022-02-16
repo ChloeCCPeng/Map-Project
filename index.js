@@ -208,6 +208,8 @@ const renderSearchResults = cities => {
         cityDiv.append(cityName, cityImg);
         searchResults.append(cityDiv);
     })
+
+    citySearch.reset();
 }
 
 getPOIs();
