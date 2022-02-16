@@ -93,6 +93,7 @@ const changeCityDisplay = city => {
     
     cityID = city.id;
     addReview();
+    checkForReviews(cityID);
 }
 
 const renderLocalHighlights = data => {
@@ -131,7 +132,6 @@ const renderAttractions = data => {
     });
 }
 
-
 function addReview(){
     reviewsList.replaceChildren()
     const reviewsTitle = document.createElement("label")
@@ -149,10 +149,7 @@ reviewForm.addEventListener("submit", (e) =>{
     e.preventDefault();
     
     const newReview = document.querySelector('#review').value
-    const newCityReview = document.createElement('ul')
-    newCityReview.textContent = newReview
-
-    reviewsList.append(newCityReview)
+    renderReview(newReview);
 
     const reviewObj = {
         city: cityID,
@@ -162,6 +159,13 @@ reviewForm.addEventListener("submit", (e) =>{
 
     reviewForm.reset()
 })
+
+const renderReview = review => {
+    const newCityReview = document.createElement('ul')
+    newCityReview.textContent = review
+
+    reviewsList.append(newCityReview)
+}
 
 const handleReviewDB = review => {
     console.log(JSON.stringify(review))
@@ -174,6 +178,18 @@ const handleReviewDB = review => {
     })
     .then(res => res.json())
     .then(data => console.log(data));
+}
+
+const checkForReviews = cityID => {
+    fetch("http://localhost:3000/reviews")
+    .then(res => res.json())
+    .then(data => {
+        data.forEach(city => {
+            if(city.city === cityID){
+                renderReview(city.review)
+            }
+        })
+    });
 }
 
 const renderRestaurant = data => {
