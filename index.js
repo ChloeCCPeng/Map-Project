@@ -1,6 +1,13 @@
 const cityDisplayDiv = document.querySelector("#city-display");
 const cityInfo = document.querySelector("#city-info");
+
 const reviewsList = document.querySelector("#reviews-list")
+
+const citySearch = document.querySelector("#city-search");
+const citySearchInput = document.querySelector("#city-search-input");
+const searchDiv = document.querySelector(".search-container");
+const searchResults = document.querySelector("#search-results");
+
 
 const getPOIs = () => {
     fetch("https://www.triposo.com/api/20220104/location.json?part_of=United_States&tag_labels=city&count=10&order_by=-score&fields=name,id,snippet,parent_id,score,type,images,coordinates,intro&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw")
@@ -13,7 +20,7 @@ const getPlacesToEat = cityID => {
     .then(res => res.json())
     .then(data => {
         console.log(data);
-        return data;
+        renderRestaurant(data);
     });
 }
 
@@ -73,9 +80,16 @@ const changeCityDisplay = city => {
         getAttractions(city.id);
     })
 
+    const localrestaurantButton = document.createElement("button");
+    localrestaurantButton.textContent = "Local Restaurants";
+
+    localrestaurantButton.addEventListener('click', () => {
+        getPlacesToEat(city.id);
+    })
+
     cityDisplayDiv.replaceChildren();
     cityInfo.replaceChildren();
-    cityDisplayDiv.append(newCityDisplayName, newCityDisplayImg, localHighlightsButton, attractionsButton);
+    cityDisplayDiv.append(newCityDisplayName, newCityDisplayImg, localrestaurantButton, attractionsButton, localHighlightsButton);
 }
 
 const renderLocalHighlights = data => {
@@ -98,7 +112,6 @@ const renderLocalHighlights = data => {
 }
 
 const renderAttractions = data => {
-    
     cityInfo.replaceChildren();
 
     data.results.forEach(attraction => {
@@ -114,6 +127,7 @@ const renderAttractions = data => {
         cityInfo.append(attractionDiv);
     });
 }
+
 
 function addReview(){
     const reviewForm = document.querySelector('#review-form')
@@ -146,4 +160,62 @@ getPOIs();
 getAttractions();
 //getLocal();
 
-//account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw --> my account and token, should be included in every API request
+const renderRestaurant = data => {
+    cityInfo.replaceChildren();
+    data.results.forEach(restaurant => {
+        const restaurantDiv = document.createElement('div');
+        const restaurantName = document.createElement('h3');
+        const restaurantSnippet = document.createElement('h3');
+        const restaurantScore = document.createElement ('p');
+        // const restaurantImage = document.createElement ('div');
+        const restaurantIntro = document.createElement('p');
+        const score = restaurant.score.toFixed(0);
+
+        restaurantName.textContent = restaurant.name;
+        restaurantSnippet.textContent = restaurant.snippet;
+        restaurantScore.textContent = ("Score: " + score);
+        // restaurantImage.setAttribute('src', restaurant.images[0].source_url);
+        // restaurantImage.src = restaurant.images[0].sizes.thumbnail.url;
+        restaurantIntro.textContent = restaurant.intro;
+
+        restaurantDiv.append (restaurantName, restaurantSnippet, restaurantScore, restaurantIntro);
+        cityInfo.appendChild(restaurantDiv)
+        console.log(data.results) 
+    })
+}
+
+citySearch.addEventListener("submit", event => {
+    event.preventDefault();
+    handleSearch();
+})
+
+const handleSearch = () => {
+    console.log(citySearchInput.value);
+    fetch(`https://www.triposo.com/api/20220104/location.json?countrycode=US&tag_labels=city&annotate=trigram:${citySearchInput.value}&trigram=>=0.3&count=5&fields=id,name,score,country_id,parent_id,snippet,images,coordinates,intro&order_by=-score&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw`)
+    .then(res => res.json())
+    .then(data => renderSearchResults(data.results));
+}
+
+const renderSearchResults = cities => {
+    searchResults.replaceChildren();
+
+    cities.forEach(city => {
+        console.log(city);
+        const cityDiv = document.createElement("div");
+        const cityName = document.createElement("h3");
+        const cityImg = document.createElement("img");
+
+        cityName.textContent = `${city.name}, ${city.parent_id}`;
+        cityImg.src = city.images[0].sizes.thumbnail.url;
+
+        cityDiv.addEventListener("click", () => {
+            changeCityDisplay(city);
+        });
+
+        cityDiv.append(cityName, cityImg);
+        searchResults.append(cityDiv);
+    })
+}
+
+
+getPOIs();

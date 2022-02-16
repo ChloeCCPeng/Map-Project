@@ -15,10 +15,11 @@
     </header>
     <main>
     <div class="search-container">
-        <form action="/action_page.php">
-            <input type="text" placeholder="Search.." name="search">
+        <form id="city-search" action="/action_page.php">
+            <input id="city-search-input" type="text" placeholder="Search.." name="search">
             <button type="submit"><i class="fa fa-search"></i></button>
         </form>
+        <div id="search-results"></div>
     </div>
     <div id="city-display">
         <h1 id="city-name"></h1>
