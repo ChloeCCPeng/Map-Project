@@ -8,7 +8,6 @@ const citySearchInput = document.querySelector("#city-search-input");
 const searchDiv = document.querySelector(".search-container");
 const searchResults = document.querySelector("#search-results");
 
-
 const getPOIs = () => {
     fetch("https://www.triposo.com/api/20220104/location.json?part_of=United_States&tag_labels=city&count=10&order_by=-score&fields=name,id,snippet,parent_id,score,type,images,coordinates,intro&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw")
     .then(res => res.json())
@@ -152,13 +151,7 @@ function addReview(){
     reviewsList.append(newCityReview)
     reviewForm.reset()
 })
-
 }
-
-getPOIs();
-//getPlacesToEat();
-getAttractions();
-//getLocal();
 
 const renderRestaurant = data => {
     cityInfo.replaceChildren();
@@ -192,8 +185,7 @@ citySearch.addEventListener("submit", event => {
 })
 
 const handleSearch = () => {
-    console.log(citySearchInput.value);
-    fetch(`https://www.triposo.com/api/20220104/location.json?countrycode=US&tag_labels=city&annotate=trigram:${citySearchInput.value}&trigram=>=0.3&count=5&fields=id,name,score,country_id,parent_id,snippet,images,coordinates,intro&order_by=-score&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw`)
+    fetch(`https://www.triposo.com/api/20220104/location.json?countrycode=US&tag_labels=city&annotate=trigram:${citySearchInput.value}&trigram=>=0.3&count=5&fields=id,name,score,snippet,images,intro,names&order_by=-score&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw`)
     .then(res => res.json())
     .then(data => renderSearchResults(data.results));
 }
@@ -202,12 +194,11 @@ const renderSearchResults = cities => {
     searchResults.replaceChildren();
 
     cities.forEach(city => {
-        console.log(city);
         const cityDiv = document.createElement("div");
         const cityName = document.createElement("h3");
         const cityImg = document.createElement("img");
 
-        cityName.textContent = `${city.name}, ${city.parent_id}`;
+        cityName.textContent = `${city.name} (${city.names[city.names.length - 1]})`;
         cityImg.src = city.images[0].sizes.thumbnail.url;
 
         cityDiv.addEventListener("click", () => {
@@ -217,6 +208,8 @@ const renderSearchResults = cities => {
         cityDiv.append(cityName, cityImg);
         searchResults.append(cityDiv);
     })
+
+    citySearch.reset();
 }
 
 getPOIs();
