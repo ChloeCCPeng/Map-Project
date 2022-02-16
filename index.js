@@ -83,7 +83,7 @@ const changeCityDisplay = city => {
 
     cityDisplayDiv.replaceChildren();
     cityInfo.replaceChildren();
-    cityDisplayDiv.append(newCityDisplayName, newCityDisplayImg, localHighlightsButton, attractionsButton);
+    cityDisplayDiv.append(newCityDisplayName, newCityDisplayImg, localrestaurantButton, attractionsButton, localHighlightsButton);
 }
 
 const renderLocalHighlights = data => {
@@ -120,6 +120,30 @@ const renderAttractions = data => {
         attractionDiv.append(attractionName, attractionDesc);
         cityInfo.append(attractionDiv);
     });
+}
+
+const renderRestaurant = data => {
+    cityInfo.replaceChildren();
+    data.results.forEach(restaurant => {
+        const restaurantDiv = document.createElement('div');
+        const restaurantName = document.createElement('h3');
+        const restaurantSnippet = document.createElement('p');
+        const restaurantScore = document.createElement ('p');
+        // const restaurantImage = document.createElement ('div');
+        const restaurantIntro = document.createElement('p');
+        const score = restaurant.score.toFixed(0);
+
+        restaurantName.textContent = restaurant.name;
+        restaurantSnippet.textContent = restaurant.snippet;
+        restaurantScore.textContent = ("Score: " + score);
+        // restaurantImage.setAttribute('src', restaurant.images[0].source_url);
+        // restaurantImage.src = restaurant.images[0].sizes.thumbnail.url;
+        restaurantIntro.textContent = restaurant.intro;
+
+        restaurantDiv.append (restaurantName, restaurantSnippet, restaurantScore, restaurantIntro);
+        cityInfo.appendChild(restaurantDiv)
+        console.log(data.results) 
+    })
 }
 
 citySearch.addEventListener("submit", event => {
