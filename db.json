@@ -6,9 +6,24 @@
       "id": 1
     },
     {
-      "city": "Dallas",
-      "review": "Boo I hate this city",
-      "id": 2
+      "city": "Austin2C_Texas",
+      "review": "hook 'em!",
+      "id": 4
+    },
+    {
+      "city": "Houston",
+      "review": "best city!",
+      "id": 5
+    },
+    {
+      "city": "New_York_City",
+      "review": "love it",
+      "id": 6
+    },
+    {
+      "city": "New_Orleans",
+      "review": "great food!",
+      "id": 7
     }
   ]
 }
