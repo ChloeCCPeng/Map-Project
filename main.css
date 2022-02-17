@@ -115,3 +115,11 @@ button:active {
     padding: 0.25em 0.75em;
   }
 }
+
+#search-results {
+  display: inline-flex; 
+}
+
+#search-results:hover {
+  cursor: pointer;
+}
