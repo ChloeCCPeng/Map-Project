@@ -62,7 +62,7 @@ const changeCityDisplay = city => {
     const newCityDisplayImg = document.createElement("img");
 
     newCityDisplayName.textContent = city.name;
-    newCityDisplayImg.src = city.images[0].sizes.medium.url;
+    newCityDisplayImg.src = city.images[0].sizes.original.url;
     newCityDisplayImg.id = 'new-city-image'
 
 
@@ -90,11 +90,14 @@ const changeCityDisplay = city => {
         getPlacesToEat(city.id);
     })
     
+    const buttonDiv = document.createElement("div");
+    buttonDiv.setAttribute("id", "button-div");
     cityDisplayDiv.replaceChildren();
     cityInfo.replaceChildren();
     searchResults.replaceChildren();
-    cityDisplayDiv.append(newCityDisplayName, newCityDisplayImg, localrestaurantButton, attractionsButton, localHighlightsButton);
-    
+    buttonDiv.append(localrestaurantButton, attractionsButton, localHighlightsButton);
+    cityDisplayDiv.append(newCityDisplayName, newCityDisplayImg, buttonDiv);
+
     addReview(city.id);
     checkForReviews(city.id);
 }
