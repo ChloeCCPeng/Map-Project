@@ -1,29 +1,24 @@
 {
   "reviews": [
     {
-      "city": "San_Francisco",
-      "review": "Cool!",
+      "city": "New_York_City",
+      "review": "Loved it here!!",
       "id": 1
     },
     {
-      "city": "Austin2C_Texas",
-      "review": "hook 'em!",
+      "city": "San_Francisco",
+      "review": "Awesome!!",
+      "id": 2
+    },
+    {
+      "city": "Murray2C_Kentucky",
+      "review": "Loved the Wal-Mart!!",
+      "id": 3
+    },
+    {
+      "city": "Murray2C_Kentucky",
+      "review": "Murray was the cutest small town!!\nI heard there was a super cool chick from there - I believe her name is Lyssie Wright.",
       "id": 4
-    },
-    {
-      "city": "Houston",
-      "review": "best city!",
-      "id": 5
-    },
-    {
-      "city": "New_York_City",
-      "review": "love it",
-      "id": 6
-    },
-    {
-      "city": "New_Orleans",
-      "review": "great food!",
-      "id": 7
     }
   ]
 }
