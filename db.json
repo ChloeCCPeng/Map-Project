@@ -24,6 +24,16 @@
       "city": "Houston",
       "review": "The best city ever!",
       "id": 5
+    },
+    {
+      "city": "Washington2C_D2eC2e",
+      "review": "I tried to talk to the President, but when I knocked on his front door I got tackled by these men in suits!!!",
+      "id": 6
+    },
+    {
+      "city": "New_York_City",
+      "review": "Best Food!",
+      "id": 7
     }
   ]
 }
