@@ -40,7 +40,7 @@ const renderCitiesNav = cities => {
     cities.forEach(city => {
         const cityList = document.querySelector('#city-list')
         const cityDiv = document.createElement("div");
-        const cityName = document.createElement("h1");
+        const cityName = document.createElement("h3");
         const cityImg = document.createElement("img");
         
         cityName.textContent = city.name;
@@ -68,6 +68,7 @@ const changeCityDisplay = city => {
 
     const localHighlightsButton = document.createElement("button");
     localHighlightsButton.textContent = "Local Highlights";
+    localHighlightsButton.className = "btn";
 
     localHighlightsButton.addEventListener("click", () => {
         getLocal(city.id);
@@ -75,6 +76,7 @@ const changeCityDisplay = city => {
 
     const attractionsButton = document.createElement("button");
     attractionsButton.textContent = "Attractions";
+    attractionsButton.className = "btn";
 
     attractionsButton.addEventListener("click", () => {
         getAttractions(city.id);
@@ -82,6 +84,7 @@ const changeCityDisplay = city => {
 
     const localrestaurantButton = document.createElement("button");
     localrestaurantButton.textContent = "Local Restaurants";
+    localrestaurantButton.className = "btn";
 
     localrestaurantButton.addEventListener('click', () => {
         getPlacesToEat(city.id);
@@ -130,14 +133,17 @@ const renderAttractions = data => {
     });
 }
 
+
 function addReview(cityID){
     reviewsList.replaceChildren()
     const reviewsTitle = document.createElement("label")
     const textArea = document.createElement("textarea")
     textArea.setAttribute("id", "review")
     const submitButton = document.createElement("button")
+
     reviewsList.setAttribute("city-id", cityID)
     const title = document.createElement("h1");
+      submitButton.className = "btn";
 
     submitButton.textContent = "Add Review"
     reviewsTitle.textContent = "Your Review"

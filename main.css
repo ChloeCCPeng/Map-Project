@@ -3,7 +3,11 @@ body {
   margin: 0;
   font-family: 'Cabin', sans-serif;
   font-size: 20px;
-  background-color: #ffffff
+  background-color: #ffffff;
+}
+
+.search-container{
+  height: 40px;
 }
 
 header {
@@ -13,9 +17,16 @@ header {
 }
 
 h1 {
-  font-size: 52px;
+  font-size: 100px;
   color: rgb(1, 1, 2);
-  font-family: 'Lobster', cursive;
+  font-family: 'Caveat', cursive;
+  margin: 30px;
+}
+
+h3{
+  font-size: 40px;
+  color: rgb(1, 1, 2);
+  font-family: 'Bebas Neue', cursive;
 }
 
 #city-display img{
@@ -36,47 +47,24 @@ h1 {
 }
 
 #map-image{
-  width: 50%;
-  margin: auto;
+  width: 90%;
+  padding: 170px 50px 0px 50px;
+  margin-top: 20%;
   clear:both;
-  float: center
-} */
-
- #city-display img{
-  width: 50%;
-  margin: auto;
-  clear:both;
-  display: block
-} 
-
-#city-list{
-  overflow: scroll;
-  height: 90vh;
-  display: flex;
-  flex-direction: column;
-  max-width: fit-content;
-  float: left;
-  margin-bottom: 20px;
-  margin-top: 40px
-  
+  float: center;
+  transform-origin: 65% 75%;
+  transition: transform 1s, filter .5s ease-out;
 }
 
-#city-list h1{
-  font-size: 30px
+#map-image:hover{
+  transform: scale(1.3);
+  cursor: crosshair
+  cursor:url("https://toppng.com/uploads/preview/lamborghini-gallardo-nice-red-sports-car-11563303859btgcudgodp.png"), default;
 }
 
 div{
   display: block;
   clear:both;
-}
-
-h3{
-  text-align: left;
-  height: auto;
-  font-size: 40px;
-  font-family: 'Zen Kaku Gothic Antique', sans-serif;
-  font-weight: bolder;
-  padding: 35px 35px 0px 35px;
 }
 
 p{
@@ -97,39 +85,24 @@ textarea, #city-search-input {
   font-size: 30px;
   width: 300px;
   height: 35px;
-  padding: 15px 25px;
-  margin: 5px 20px 5px;
+  padding: 5px 5px;
+  margin: 5px 0px 5px;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 400;
   font-size: 20px;
   color: #9D9E9E;
-  text-shadow: 1px 1px 0 #FFF;
   background: #FFF;
   border: 1px solid #FFF;
   border-radius: 5px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.50);
-  -moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
-  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.50);
-  display:block;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.70);
+  -moz-box-shadow: inset 0 2px 6px rgba(0,0,0,0.50);
+  -webkit-box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.50);
+  display:table-cell;
   flex-flow: row wrap;
   align-items: center;
 }
 
-textarea:focus, #city-search-input:focus {
-  background: #DFE9EC;
-  color: #414848;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
-  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
-  outline: 0;
-}
-
-textarea:hover, #city-search-input:hover {
-  background: #DFE9EC;
-  color: #414848;
-}
-
-button {
+.btn{
   font-family: "Open Sans", sans-serif;
   font-size: 30px;
   letter-spacing: 2px;
@@ -151,8 +124,45 @@ button {
   flex-wrap: wrap;
 }
 
+textarea:focus, #city-search-input:focus {
+  background: #DFE9EC;
+  color: #414848;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+  outline: 0;
+}
+textarea:hover, #city-search-input:hover {
+  background: #DFE9EC;
+  color: #414848;
+}
+
+
+textarea, #city-search-input > button {
+  font-family: "Open Sans", sans-serif;
+  font-size: 30px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #000;
+  cursor: pointer;
+  border: 3px solid;
+  margin: 5px;
+  padding: 0.25em 0.5em;
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  display: inline-block;
+  grid-template-columns: 3fr 3fr;
+  grid-gap: 20px;
+  flex-wrap: wrap;
+}
+
+
 button:active {
-  box-shadow: 0px 0px 0px 0px;
+  box-shadow: 0px 0px 10px 10px;
   top: 5px;
   left: 5px;
 }
@@ -162,17 +172,11 @@ button:active {
     padding: 0.25em 0.75em;
   }
 }
-
 #new-city-image {
   display:block;
 }
-
 #search-results {
   display: inline-flex; 
-}
-
-#search-results h3{
-  font-size: 20px;
 }
 
 #search-results:hover {
