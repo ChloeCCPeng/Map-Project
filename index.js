@@ -89,6 +89,7 @@ const changeCityDisplay = city => {
     
     cityDisplayDiv.replaceChildren();
     cityInfo.replaceChildren();
+    searchResults.replaceChildren();
     cityDisplayDiv.append(newCityDisplayName, newCityDisplayImg, localrestaurantButton, attractionsButton, localHighlightsButton);
     
     addReview(city.id);
