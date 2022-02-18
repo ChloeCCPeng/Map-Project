@@ -9,9 +9,6 @@ const citySearchInput = document.querySelector("#city-search-input");
 const searchDiv = document.querySelector(".search-container");
 const searchResults = document.querySelector("#search-results");
 
-let cityID;
-
-
 const getPOIs = () => {
     fetch("https://www.triposo.com/api/20220104/location.json?part_of=United_States&tag_labels=city&count=10&order_by=-score&fields=name,id,snippet,parent_id,score,type,images,coordinates,intro&account=7GPWA5CT&token=8w8tduvc82ln7ebbx42bd1ugcd6hxbcw")
     .then(res => res.json())
@@ -40,7 +37,6 @@ const getLocal = cityID => {
 }
 
 const renderCitiesNav = cities => {
-    console.log(cities);
     cities.forEach(city => {
         const cityList = document.querySelector('#city-list')
         const cityDiv = document.createElement("div");
@@ -62,8 +58,6 @@ const renderCitiesNav = cities => {
 }
 
 const changeCityDisplay = city => {
-    console.log(city);
-
     const newCityDisplayName = document.createElement("h1");
     const newCityDisplayImg = document.createElement("img");
 
@@ -98,16 +92,14 @@ const changeCityDisplay = city => {
     
     cityDisplayDiv.replaceChildren();
     cityInfo.replaceChildren();
+    searchResults.replaceChildren();
     cityDisplayDiv.append(newCityDisplayName, newCityDisplayImg, localrestaurantButton, attractionsButton, localHighlightsButton);
     
-    cityID = city.id;
-    addReview();
-    checkForReviews(cityID);
+    addReview(city.id);
+    checkForReviews(city.id);
 }
 
 const renderLocalHighlights = data => {
-    console.log(data);
-
     cityInfo.replaceChildren();
 
     data.results.forEach(highlight => {
@@ -141,14 +133,17 @@ const renderAttractions = data => {
     });
 }
 
-function addReview(){
+
+function addReview(cityID){
     reviewsList.replaceChildren()
     const reviewsTitle = document.createElement("label")
     const textArea = document.createElement("textarea")
     textArea.setAttribute("id", "review")
     const submitButton = document.createElement("button")
+
+    reviewsList.setAttribute("city-id", cityID)
     const title = document.createElement("h1");
-    submitButton.className = "btn";
+      submitButton.className = "btn";
 
     submitButton.textContent = "Add Review"
     reviewsTitle.textContent = "Your Review"
@@ -160,6 +155,7 @@ function addReview(){
 reviewForm.addEventListener("submit", (e) =>{
     e.preventDefault();
     
+    const cityID = reviewsList.getAttribute("city-id");
     const newReview = document.querySelector('#review').value
     renderReview(newReview);
 
@@ -173,7 +169,7 @@ reviewForm.addEventListener("submit", (e) =>{
 })
 
 const renderReview = review => {
-    const newCityReview = document.createElement('ul')
+    const newCityReview = document.createElement('p')
     newCityReview.textContent = review
 
     reviewsList.append(newCityReview)

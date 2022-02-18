@@ -205,7 +205,7 @@ button:active {
   font-style:italic
 }
 
-#city-display-and-city-info{
+#city-display-and-city-list{
   display: inline-flex;
 }
 
@@ -216,4 +216,14 @@ button:active {
 textarea {
   width: 400px;
   height: 150px;
+}
+
+#reviews-list{
+  background-color: goldenrod;
+}
+
+#reviews-list p{
+  text-align: center;
+  font-size: 20px;
+  ;
 }
