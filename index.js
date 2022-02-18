@@ -69,6 +69,7 @@ const changeCityDisplay = city => {
 
     newCityDisplayName.textContent = city.name;
     newCityDisplayImg.src = city.images[0].sizes.medium.url;
+    newCityDisplayImg.id = 'new-city-image'
 
 
     const localHighlightsButton = document.createElement("button");

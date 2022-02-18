@@ -72,7 +72,7 @@ form {
 textarea, #city-search-input {
   font-size: 30px;
   width: 300px;
-  height: 30px;
+  height: 35px;
   padding: 15px 25px;
   margin: 5px 20px 5px;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -120,6 +120,11 @@ button {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  display: inline-block;
+    grid-template-columns: 3fr 3fr;
+    grid-gap: 20px;
+
+        flex-wrap: wrap;
 }
 
 button:active {
@@ -133,7 +138,9 @@ button:active {
     padding: 0.25em 0.75em;
   }
 }
-
+#new-city-image {
+  display:block;
+}
 #search-results {
   display: inline-flex; 
 }
