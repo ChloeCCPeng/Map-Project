@@ -18,10 +18,30 @@ h1 {
   font-family: 'Lobster', cursive;
 }
 
-img{
+/* #map-image{
   width: 50%;
   margin: auto;
   clear:both;
+  float: center
+  
+} */
+ #city-display img{
+  width: 50%;
+  margin: auto;
+  clear:both;
+  display: block
+} 
+
+
+#city-list{
+  overflow: scroll;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  max-width: fit-content;
+  float: left;
+  margin-bottom: 20px;
+  
 }
 
 div{
@@ -95,7 +115,7 @@ button {
   color: #000;
   cursor: pointer;
   border: 3px solid;
-  margin: 5px 35px 5px 35px;
+  margin: 35px 30px 35px 35px;
   padding: 0.25em 0.5em;
   box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
   position: relative;
@@ -114,4 +134,34 @@ button:active {
   button {
     padding: 0.25em 0.75em;
   }
+}
+
+#search-results {
+  display: inline-flex; 
+}
+
+#search-results:hover {
+  cursor: pointer;
+}
+
+#city-info{
+  background-color: lightgrey;
+  margin: 40px 40px 40px 40px
+}
+
+#city-info h3{
+  text-align: center;
+  height: auto;
+  font-size: 60px;
+  font-family: 'Zen Kaku Gothic Antique', sans-serif;
+  font-weight: bolder;
+  padding: 35px 35px 0px 35px;
+}
+
+#city-info p{
+  text-align: center;
+  font-size: 30px;
+  font-family: 'Zen Kaku Gothic Antique', sans-serif;
+  padding: 5px 35px 5px 35px;
+  font-style:italic
 }

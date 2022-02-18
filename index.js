@@ -42,6 +42,7 @@ const getLocal = cityID => {
 const renderCitiesNav = cities => {
     console.log(cities);
     cities.forEach(city => {
+        const cityList = document.querySelector('#city-list')
         const cityDiv = document.createElement("div");
         const cityName = document.createElement("h1");
         const cityImg = document.createElement("img");
@@ -54,7 +55,7 @@ const renderCitiesNav = cities => {
         })
 
         cityDiv.append(cityName, cityImg);
-        document.body.append(cityDiv);
+        cityList.append(cityDiv);
     })
 }
 

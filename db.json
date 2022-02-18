@@ -1,19 +1,9 @@
 {
   "reviews": [
     {
-      "city": "San_Francisco",
-      "review": "cool!",
-      "id": 1
-    },
-    {
       "city": "New_York_City",
-      "review": "qwee",
-      "id": 2
-    },
-    {
-      "city": "Austin2C_Texas",
-      "review": "qweqwe",
-      "id": 3
+      "review": "Loved it here!!",
+      "id": 1
     }
   ]
 }
