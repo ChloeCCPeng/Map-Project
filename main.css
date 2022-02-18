@@ -165,3 +165,16 @@ button:active {
   padding: 5px 35px 5px 35px;
   font-style:italic
 }
+
+#city-display-and-city-info{
+  display: inline-flex;
+}
+
+#city-nav:hover {
+  cursor: pointer;
+}
+
+textarea {
+  width: 400px;
+  height: 150px;
+}
