@@ -54,6 +54,8 @@ const renderCitiesNav = cities => {
             changeCityDisplay(city);
         })
 
+        cityDiv.setAttribute("id", "city-nav");
+
         cityDiv.append(cityName, cityImg);
         cityList.append(cityDiv);
     })
@@ -141,11 +143,13 @@ function addReview(){
     const textArea = document.createElement("textarea")
     textArea.setAttribute("id", "review")
     const submitButton = document.createElement("button")
+    const title = document.createElement("h1");
 
     submitButton.textContent = "Add Review"
     reviewsTitle.textContent = "Your Review"
+    title.textContent = "Reviews"
 
-    reviewsList.append(reviewsTitle,textArea,submitButton)
+    reviewsList.append(reviewsTitle,textArea,submitButton,title)
 }
 
 reviewForm.addEventListener("submit", (e) =>{
@@ -164,7 +168,7 @@ reviewForm.addEventListener("submit", (e) =>{
 })
 
 const renderReview = review => {
-    const newCityReview = document.createElement('ul')
+    const newCityReview = document.createElement('p')
     newCityReview.textContent = review
 
     reviewsList.append(newCityReview)

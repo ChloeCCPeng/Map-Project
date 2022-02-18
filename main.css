@@ -41,7 +41,12 @@ h1 {
   max-width: fit-content;
   float: left;
   margin-bottom: 20px;
+  margin-top: 40px
   
+}
+
+#city-list h1{
+  font-size: 30px
 }
 
 div{
@@ -140,6 +145,10 @@ button:active {
   display: inline-flex; 
 }
 
+#search-results h3{
+  font-size: 20px;
+}
+
 #search-results:hover {
   cursor: pointer;
 }
@@ -164,4 +173,27 @@ button:active {
   font-family: 'Zen Kaku Gothic Antique', sans-serif;
   padding: 5px 35px 5px 35px;
   font-style:italic
+}
+
+#city-display-and-city-info{
+  display: inline-flex;
+}
+
+#city-nav:hover {
+  cursor: pointer;
+}
+
+textarea {
+  width: 400px;
+  height: 150px;
+}
+
+#reviews-list{
+  background-color: goldenrod;
+}
+
+#reviews-list p{
+  text-align: center;
+  font-size: 20px;
+  ;
 }
